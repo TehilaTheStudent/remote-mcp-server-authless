@@ -7,10 +7,14 @@
 	"name": "remote-mcp-server-authless",
 	"main": "src/index.ts",
 	"compatibility_date": "2025-03-10",
-	"compatibility_flags": ["nodejs_compat"],
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
 	"migrations": [
 		{
-			"new_sqlite_classes": ["MyMCP"],
+			"new_sqlite_classes": [
+				"MyMCP"
+			],
 			"tag": "v1"
 		}
 	],
@@ -26,8 +30,12 @@
 		"enabled": true
 	},
 	"dev": {
-    "ip": "0.0.0.0",
-    "port": 8787,
-    "local_protocol": "http"
-  }
+		"ip": "0.0.0.0",
+		"port": 8787,
+		"local_protocol": "http"
+	},
+	"vars": {
+		"HUAWEI_REGION": "ap-southeast-3",
+		"HUAWEI_SERVICE": "codearts"
+	}
 }

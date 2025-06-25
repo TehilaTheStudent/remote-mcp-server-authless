@@ -9,8 +9,7 @@ export class MyMCP extends McpAgent {
 		name: "Authless Calculator",
 		version: "1.0.0",
 	});
-	// server: McpServer;
-	// server = await launchServer(TransportType.STDIO);
+
 
 	async init() {
 		this.server = await launchServer(
@@ -78,7 +77,13 @@ export class MyMCP extends McpAgent {
 							};
 						},
 					],
-				]
+				],
+				apiOptions: {
+					headers: {
+						// You can add default headers here
+						"x-language": "en-us",
+					},
+				}
 			}
 
 		);

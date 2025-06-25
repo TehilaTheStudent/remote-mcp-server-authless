@@ -148,6 +148,7 @@ export default {
 				process.env.X_AUTH_TOKEN = bearerToken;
 			}
 			console.log("auth: ",request.headers.get("Authorization"));
+			console.log("env: ",process.env.X_AUTH_TOKEN);
 			return MyMCP.serveSSE("/sse").fetch(request, env, ctx);
 		}
 

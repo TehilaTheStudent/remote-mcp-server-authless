@@ -37,6 +37,5 @@
 	"vars": {
 		"HUAWEI_REGION": "ap-southeast-3",
 		"HUAWEI_SERVICE": "codearts",
-		"X_AUTH_TOKEN": "aaaaaa"
 	}
 }

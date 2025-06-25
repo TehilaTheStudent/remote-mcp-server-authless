@@ -13,10 +13,8 @@ export class MyMCP extends McpAgent {
 	// server = await launchServer(TransportType.STDIO);
 
 	async init() {
-		console.log("mcp-remote-authless : init");
 		this.server = await launchServer(
-			TransportType.STDIO
-			,
+			TransportType.STDIO,
 			{
 				tools: [
 					// Simple tool with Zod schema: [name, schema, handler]

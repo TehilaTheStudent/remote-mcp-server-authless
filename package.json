@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "^1.13.1",
-		"@trc-sdlc-huawei/tehila-mcp-openapi": "^1.0.0",
+		"@trc-sdlc-huawei/tehila-mcp-openapi": "1.0.1",
 		"agents": "^0.0.95",
 		"zod": "^3.25.67"
 	},

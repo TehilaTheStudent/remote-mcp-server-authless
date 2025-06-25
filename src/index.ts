@@ -1,6 +1,7 @@
 import { McpAgent } from "agents/mcp";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { launchServer, TransportType } from "@trc-sdlc-huawei/tehila-mcp-openapi";
 
 // Define our MCP agent with tools
 export class MyMCP extends McpAgent {
@@ -8,8 +9,84 @@ export class MyMCP extends McpAgent {
 		name: "Authless Calculator",
 		version: "1.0.0",
 	});
+	// server: McpServer;
+	// server = await launchServer(TransportType.STDIO);
 
 	async init() {
+		console.log("mcp-remote-authless : init");
+		this.server = await launchServer(
+			TransportType.STDIO
+			,
+			{
+				tools: [
+					// Simple tool with Zod schema: [name, schema, handler]
+					[
+						"calculate-bmi",
+						// Define schema using Zod
+						{
+							weightKg: z.number(),
+							heightM: z.number(),
+						},
+						async ({ weightKg, heightM }: { weightKg: number; heightM: number }) => ({
+							content: [
+								{
+									type: "text",
+									text: String(weightKg / (heightM * heightM)),
+								},
+							],
+						}),
+					],
+					// Tool with more complex Zod schema: [name, schema, handler]
+					[
+						"fetch-weather",
+						{ city: z.string() },
+						async ({ city }: { city: string }) => {
+							const response = await fetch(`https://api.weather.com/${city}`);
+							const data = await response.text();
+							return {
+								content: [{ type: "text", text: data }],
+							};
+						},
+					],
+				],
+				resources: [
+					// Static resource: [name, uriPattern, handler]
+					[
+						"entities",
+						"entities://environment",
+						async (uri: any) => ({
+							contents: [
+								{
+									uri: uri.href,
+									text: "App configuration here",
+								},
+							],
+						}),
+					],
+
+					// Dynamic resource with parameters: [name, uriTemplate, handler]
+					[
+						"user-profile",
+						"users://{userId}/profile",
+						async (uri: any) => {
+							const userId = uri.pathname.split("/")[1];
+							return {
+								contents: [
+									{
+										uri: uri.href,
+										text: `Profile data for user ${userId}`,
+									},
+								],
+							};
+						},
+					],
+				]
+			}
+
+		);
+		// this.server = launchServer(TransportType.STDIO);
+
+		// register tools here
 		// Simple addition tool
 		this.server.tool(
 			"add",

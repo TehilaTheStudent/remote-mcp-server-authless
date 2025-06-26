@@ -12,6 +12,7 @@ export class MyMCP extends McpAgent {
 
 
 	async init() {
+		console.log("MyMCP env: ",process.env.X_AUTH_TOKEN);
 		this.server = await launchServer(
 			TransportType.STDIO,
 			{

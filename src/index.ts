@@ -3,8 +3,13 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
 import { launchServer, TransportType } from "@trc-sdlc-huawei/tehila-mcp-openapi";
 
+
+
+type Props = {
+	bearerToken: string;
+};
 // Define our MCP agent with tools
-export class MyMCP extends McpAgent {
+export class MyMCP extends McpAgent<Props> {
 	server = new McpServer({
 		name: "Authless Calculator",
 		version: "1.0.0",
@@ -12,7 +17,6 @@ export class MyMCP extends McpAgent {
 
 
 	async init() {
-		console.log("MyMCP env: ",process.env.X_AUTH_TOKEN);
 		this.server = await launchServer(
 			TransportType.STDIO,
 			{
@@ -83,59 +87,24 @@ export class MyMCP extends McpAgent {
 					headers: {
 						// You can add default headers here
 						"x-language": "en-us",
+						"x-auth-token": this.props.bearerToken,
 					},
 				}
 			}
 
 		);
-		// this.server = launchServer(TransportType.STDIO);
 
 		// register tools here
-		// Simple addition tool
-		// this.server.tool(
-		// 	"add",
-		// 	{ a: z.number(), b: z.number() },
-		// 	async ({ a, b }) => ({
-		// 		content: [{ type: "text", text: String(a + b) }],
-		// 	})
-		// );
-
-		// // Calculator tool with multiple operations
-		// this.server.tool(
-		// 	"calculate",
-		// 	{
-		// 		operation: z.enum(["add", "subtract", "multiply", "divide"]),
-		// 		a: z.number(),
-		// 		b: z.number(),
-		// 	},
-		// 	async ({ operation, a, b }) => {
-		// 		let result: number;
-		// 		switch (operation) {
-		// 			case "add":
-		// 				result = a + b;
-		// 				break;
-		// 			case "subtract":
-		// 				result = a - b;
-		// 				break;
-		// 			case "multiply":
-		// 				result = a * b;
-		// 				break;
-		// 			case "divide":
-		// 				if (b === 0)
-		// 					return {
-		// 						content: [
-		// 							{
-		// 								type: "text",
-		// 								text: "Error: Cannot divide by zero",
-		// 							},
-		// 						],
-		// 					};
-		// 				result = a / b;
-		// 				break;
-		// 		}
-		// 		return { content: [{ type: "text", text: String(result) }] };
-		// 	}
-		// );
+		// Tool that returns the user's bearer token
+		// This is just for demonstration purposes, don't actually create a tool that does this!
+		this.server.tool("getToken", {}, async () => ({
+			content: [
+				{
+					type: "text",
+					text: String(`User's token: ${this.props.bearerToken}`),
+				},
+			],
+		}));
 	}
 }
 
@@ -145,11 +114,13 @@ export default {
 
 		if (url.pathname === "/sse" || url.pathname === "/sse/message") {
 			const bearerToken= request.headers.get("Authorization")?.split(" ")[1];
-			if (bearerToken) {
-				process.env.X_AUTH_TOKEN = bearerToken;
+			ctx.props = {
+				bearerToken: bearerToken,
+				// could also add arbitrary headers/parameters here to pass into the MCP client
+			};
+			if (!bearerToken) {
+				return new Response("Unauthorized", { status: 401 });
 			}
-			console.log("auth: ",request.headers.get("Authorization"));
-			console.log("env: ",process.env.X_AUTH_TOKEN);
 			return MyMCP.serveSSE("/sse").fetch(request, env, ctx);
 		}
 

@@ -89,7 +89,28 @@ export class MyMCP extends McpAgent<Props> {
 						"x-language": "en-us",
 						"x-auth-token": this.props.bearerToken,
 					},
-				}
+				},
+				urlsArray: [
+					"https://dummy-go-server.onrender.com/schemas/yaml/build.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/cce.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/check.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/deploy.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/deployment-config.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/deployment-unit.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/environment.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/gitops-runtime.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/invalid_openapi.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/microservice.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/openapi.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/pipeline-run-history.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/pipeline.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/plugin.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/project.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/repo-mr.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/repo.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/service-endpoints.yaml",
+					"https://dummy-go-server.onrender.com/schemas/yaml/swr.yaml",
+				]
 			}
 
 		);

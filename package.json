@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "^1.13.1",
-		"@trc-sdlc-huawei/tehila-mcp-openapi": "1.0.0",
+		"@trc-sdlc-huawei/tehila-mcp-openapi": "1.0.1",
 		"agents": "^0.0.95",
 		"zod": "^3.25.67"
 	},
@@ -21,6 +21,6 @@
 		"@biomejs/biome": "^2.0.4",
 		"@types/node": "^24.0.4",
 		"typescript": "^5.8.3",
-		"wrangler": "^4.20.5"
+		"wrangler": "^4.21.2"
 	}
 }
